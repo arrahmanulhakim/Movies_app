@@ -8,6 +8,8 @@ part of 'movie_entity.dart';
 
 UpcomingMovies _$UpcomingMoviesFromJson(Map<String, dynamic> json) =>
     UpcomingMovies(
+      next: json['next'] as String,
+      entries: (json['entries'] as num).toInt(),
       results: (json['results'] as List<dynamic>)
           .map((e) => MovieEntity.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -15,6 +17,8 @@ UpcomingMovies _$UpcomingMoviesFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$UpcomingMoviesToJson(UpcomingMovies instance) =>
     <String, dynamic>{
+      'next': instance.next,
+      'entries': instance.entries,
       'results': instance.results,
     };
 
@@ -25,8 +29,9 @@ MovieEntity _$MovieEntityFromJson(Map<String, dynamic> json) => MovieEntity(
           : PrimaryImage.fromJson(json['primaryImage'] as Map<String, dynamic>),
       titleType: TitleType.fromJson(json['titleType'] as Map<String, dynamic>),
       titleText: TitleText.fromJson(json['titleText'] as Map<String, dynamic>),
-      releaseYear:
-          ReleaseYear.fromJson(json['releaseYear'] as Map<String, dynamic>),
+      releaseYear: json['releaseYear'] == null
+          ? null
+          : ReleaseYear.fromJson(json['releaseYear'] as Map<String, dynamic>),
       releaseDate:
           ReleaseDate.fromJson(json['releaseDate'] as Map<String, dynamic>),
     );
@@ -39,14 +44,6 @@ Map<String, dynamic> _$MovieEntityToJson(MovieEntity instance) =>
       'titleText': instance.titleText,
       'releaseYear': instance.releaseYear,
       'releaseDate': instance.releaseDate,
-    };
-
-TitleText _$TitleTextFromJson(Map<String, dynamic> json) => TitleText(
-      text: json['text'] as String,
-    );
-
-Map<String, dynamic> _$TitleTextToJson(TitleText instance) => <String, dynamic>{
-      'text': instance.text,
     };
 
 PrimaryImage _$PrimaryImageFromJson(Map<String, dynamic> json) => PrimaryImage(
@@ -98,15 +95,23 @@ Map<String, dynamic> _$ReleaseYearToJson(ReleaseYear instance) =>
       'endYear': instance.endYear,
     };
 
+TitleText _$TitleTextFromJson(Map<String, dynamic> json) => TitleText(
+      text: json['text'] as String,
+    );
+
+Map<String, dynamic> _$TitleTextToJson(TitleText instance) => <String, dynamic>{
+      'text': instance.text,
+    };
+
 TitleType _$TitleTypeFromJson(Map<String, dynamic> json) => TitleType(
       text: json['text'] as String,
       id: json['id'] as String,
       isSeries: json['isSeries'] as bool,
       isEpisode: json['isEpisode'] as bool,
-      categories: (json['categories'] as List<dynamic>)
-          .map((e) => Category.fromJson(e as Map<String, dynamic>))
+      categories: (json['categories'] as List<dynamic>?)
+          ?.map((e) => Category.fromJson(e as Map<String, dynamic>))
           .toList(),
-      canHaveEpisodes: json['canHaveEpisodes'] as bool,
+      canHaveEpisodes: json['canHaveEpisodes'] as bool?,
     );
 
 Map<String, dynamic> _$TitleTypeToJson(TitleType instance) => <String, dynamic>{

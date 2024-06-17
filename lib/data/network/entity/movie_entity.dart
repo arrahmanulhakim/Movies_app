@@ -1,13 +1,17 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'movie_entity.g.dart';
 
 @JsonSerializable()
 class UpcomingMovies {
   UpcomingMovies({
+    required this.next,
+    required this.entries,
     required this.results,
   });
 
+  String next;
+  int entries;
   List<MovieEntity> results;
 
   factory UpcomingMovies.fromJson(Map<String, dynamic> json) =>
@@ -18,10 +22,10 @@ class UpcomingMovies {
 class MovieEntity {
   MovieEntity({
     required this.id,
-    required this.primaryImage,
+    this.primaryImage,
     required this.titleType,
     required this.titleText,
-    required this.releaseYear,
+    this.releaseYear,
     required this.releaseDate,
   });
 
@@ -29,23 +33,11 @@ class MovieEntity {
   PrimaryImage? primaryImage;
   TitleType titleType;
   TitleText titleText;
-  ReleaseYear releaseYear;
+  ReleaseYear? releaseYear;
   ReleaseDate releaseDate;
 
   factory MovieEntity.fromJson(Map<String, dynamic> json) =>
       _$MovieEntityFromJson(json);
-}
-
-@JsonSerializable()
-class TitleText {
-  TitleText({
-    required this.text,
-  });
-
-  String text;
-
-  factory TitleText.fromJson(Map<String, dynamic> json) =>
-      _$TitleTextFromJson(json);
 }
 
 @JsonSerializable()
@@ -100,7 +92,7 @@ class ReleaseDate {
 class ReleaseYear {
   ReleaseYear({
     required this.year,
-    required this.endYear,
+    this.endYear,
   });
 
   int year;
@@ -111,22 +103,34 @@ class ReleaseYear {
 }
 
 @JsonSerializable()
+class TitleText {
+  TitleText({
+    required this.text,
+  });
+
+  String text;
+
+  factory TitleText.fromJson(Map<String, dynamic> json) =>
+      _$TitleTextFromJson(json);
+}
+
+@JsonSerializable()
 class TitleType {
   TitleType({
     required this.text,
     required this.id,
     required this.isSeries,
     required this.isEpisode,
-    required this.categories,
-    required this.canHaveEpisodes,
+    this.categories,
+    this.canHaveEpisodes,
   });
 
   String text;
   String id;
   bool isSeries;
   bool isEpisode;
-  List<Category> categories;
-  bool canHaveEpisodes;
+  List<Category>? categories;
+  bool? canHaveEpisodes;
 
   factory TitleType.fromJson(Map<String, dynamic> json) =>
       _$TitleTypeFromJson(json);
