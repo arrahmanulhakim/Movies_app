@@ -13,4 +13,8 @@
 ### flutter pub add json_annotation
 ### flutter pub add --dev json_serializable
 ### flutter pub add provider
-### test
+### flutter pub add cached_network_image
+### flutter pub add intl
+### flutter pub add infinite_scroll_pagination
+
+
